@@ -42,10 +42,6 @@ app.get('/shorten', function(req, res) {
 	res.send(result);
 });
 
-app.get('/favicon.ico', function(req, res) { 
-	res.send(404);
-});
-
 app.get('/:key', function(req, res) {
 	console.log('Resolving shortened url...');	
 	shortener.resolve(req.param('key'), res);

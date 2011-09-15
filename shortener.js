@@ -35,9 +35,13 @@ function resolve(identifier, response) {
 	console.log("Resolving " + identifier);
 	redis.hget(identifier, "url", function(err, data) {
 		var forwardTo = data;
-		console.log("Redirecting to " + forwardTo);
-		redis.hincrby(identifier, "hits", 1);
-		response.redirect(forwardTo);
+		if (forwardTo == null) {
+			response.send(404);
+		} else {
+			console.log("Redirecting to " + forwardTo);
+			redis.hincrby(identifier, "hits", 1);
+			response.redirect(forwardTo);
+		}
 	});
 }
 
