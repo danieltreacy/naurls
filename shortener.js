@@ -16,19 +16,17 @@ var SALTS = ['Eu9yoh2le1porieha', ];
 function shorten(url) {
 	console.log("Shortening " + url);
 	var result = new Object();
-	if (valid_url_pattern.exec(url) != null) {
-		var identifier = createIdentifier(url);
-		var shortened = createObject(identifier, url);
-		if (store(shortened)) {
-			result.key = identifier;
-			result.success = true;
-		} else {
-			result.success = false;
-			result.message = "Error: Could not store key";
-		}
+	if (valid_url_pattern.exec(url) == null) {
+		url = "http://" + url;
+	}
+	var identifier = createIdentifier(url);
+	var shortened = createObject(identifier, url);
+	if (store(shortened)) {
+		result.key = identifier;
+		result.success = true;
 	} else {
 		result.success = false;
-		result.message = 'Not a valid URL';
+		result.message = "Error: Could not store key";
 	}
 	return result;
 }
