@@ -42,6 +42,12 @@ app.get('/shorten', function(req, res) {
 	res.send(result);
 });
 
+// app.get('/about', function(req, res) {
+// 	res.render('about', {
+// 		title: 'About Naurl'
+// 	})
+// })
+
 app.get('/:key', function(req, res) {
 	console.log('Resolving shortened url...');	
 	shortener.resolve(req.param('key'), res);

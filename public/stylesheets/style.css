@@ -9,12 +9,17 @@ span,
 h1,
 input,
 a {
-  font: 69px "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 100;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: lowercase;
   -webkit-font-smoothing: antialiased;
+  font-weight: 100;
 }
 h1,
+input,
+a,
+span {
+  font-size: 69px;
+}
 input {
   border: none;
   background-color: #5b5b5b;
@@ -53,4 +58,8 @@ p.colophon {
 p.colophon a {
   font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 100;
+}
+#about {
+  font-size: 14px;
+  font-weight: 300;
 }

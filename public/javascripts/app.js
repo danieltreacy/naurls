@@ -1,4 +1,8 @@
-$(document).ready(function() { 
+/**
+ Client-side JS for naurl.
+*/
+
+$(function() { 
 
 	$('#source').focus();
 	
@@ -21,11 +25,10 @@ $(document).ready(function() {
 		})
 	}
 	
-	
 	$('#source').keypress(function(e) { 
 		if (e.which == 13) {
 			shorten();
 		}
 	});
-		
+	
 });
