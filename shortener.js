@@ -3,9 +3,7 @@ var redis;
 var valid_url_pattern = new RegExp(/https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?/);
 
 if (process.env.REDISTOGO_URL) {
-	var rtg   = require('url').parse(process.env.REDISTOGO_URL);
-	redis = require('redis-url').createClient(rtg.port, rtg.hostname);
-	redis.auth(rtg.auth.split(":")[1]);
+	redis = require('redis-url').connect(process.env.REDISTOGO_URL);
 } else {
 	redis = require('redis-url').createClient();
 }
