@@ -11,7 +11,7 @@ if (process.env.REDISTOGO_URL) {
 }
 
 // global
-var SALT = 'Eu9yoh2le1porieha';
+var SALTS = ['Eu9yoh2le1porieha', ];
 
 function shorten(url) {
 	console.log("Shortening " + url);
@@ -45,7 +45,7 @@ function resolve(identifier, response) {
 
 function createIdentifier(url) {
 	var hash = crypto.createHash('sha1');
-	hash.update(url + SALT);
+	hash.update(url + randomSalt());
 	var digest = hash.digest('hex').substring(0, 6);
 	console.log(digest);
 	return digest;
@@ -63,6 +63,27 @@ function store(shortened) {
 	return redis.hset(shortened.identifier, "url", shortened.url)	
 		&& redis.hset(shortened.identifier, "created", shortened.created)
 		&& redis.hset(shortened.identifier, "hits", 0);
+}
+
+function randomSalt() {
+	var iteration = 0;
+	var salt = "";
+	var randomNumber;
+	if(special == undefined){
+	      var special = false;
+	}
+	while(iteration < 10){
+	   randomNumber = (Math.floor((Math.random() * 100)) % 94) + 33;
+    if(!special){
+      if ((randomNumber >=33) && (randomNumber <=47)) { continue; }
+      if ((randomNumber >=58) && (randomNumber <=64)) { continue; }
+      if ((randomNumber >=91) && (randomNumber <=96)) { continue; }
+      if ((randomNumber >=123) && (randomNumber <=126)) { continue; }
+    }
+    iteration++;
+    salt += String.fromCharCode(randomNumber);
+  }
+  return salt;
 }
 
 exports.shorten = shorten;
