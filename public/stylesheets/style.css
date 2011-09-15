@@ -19,18 +19,26 @@ input {
   border: none;
   background-color: #5b5b5b;
   color: #fff;
+  outline: none;
 }
 input:focus {
   outline: none;
 }
 a {
   color: #00b7ff;
+  text-decoration: none;
 }
 #short {
   width: 900px;
   clear: both;
   margin-top: 40px;
+  display: none;
 }
 #short .unique {
   font-weight: 300;
+}
+#preloader {
+  width: 900px;
+  text-align: center;
+  display: none;
 }
