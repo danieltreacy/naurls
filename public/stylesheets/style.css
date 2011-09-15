@@ -20,6 +20,9 @@ input {
   background-color: #5b5b5b;
   color: #fff;
 }
+input:focus {
+  outline: none;
+}
 a {
   color: #00b7ff;
 }

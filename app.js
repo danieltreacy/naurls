@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express'), shortener = require('./shortener');
 
 var app = module.exports = express.createServer();
 
@@ -20,7 +20,7 @@ app.configure(function(){
 });
 
 app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 app.configure('production', function(){
@@ -30,9 +30,21 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
+	console.log('Show home page.');
   res.render('index', {
     title: 'Not Another URL Shortener'
   });
+});
+
+app.get('/shorten', function(req, res) {
+	console.log('Shortening url...');	
+	var result = shortener.shorten(req.param('u'));
+	res.send(result);
+});
+
+app.get('/:key', function(req, res) {
+	console.log('Resolving shortened url...');	
+	shortener.resolve(req.param('key'), res);
 });
 
 var port = process.env.PORT || 3000;
