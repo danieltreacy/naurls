@@ -8,6 +8,7 @@ $(document).ready(function() {
 			data: { u: $('#source').val() },
 			type: 'GET',
 			beforeSend: function() { 
+				$('#short').hide();
 				$('#preloader').show();
 			},
 			success: function(json) { 
