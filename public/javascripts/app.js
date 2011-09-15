@@ -14,7 +14,7 @@ $(document).ready(function() {
 				$('#source').val('');
 				$('#preloader').hide();
 				$('span.unique').text(json.key);
-				$('#short').attr('href', '/' + json.key);
+				$('#short').attr("href", "/" + json.key);
 				$('#short').fadeIn();
 			}
 		})
