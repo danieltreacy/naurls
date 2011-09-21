@@ -1,14 +1,12 @@
-
-/**
+/*
  * Module dependencies.
  */
-
 var express = require('express'), shortener = require('./shortener');
-
 var app = module.exports = express.createServer();
 
-// Configuration
-
+/*
+ * Configuration
+ */
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -27,8 +25,9 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-// Routes
-
+/*
+ * Routes
+ */
 app.get('/', function(req, res){
 	console.log('Show home page.');
   res.render('index', {

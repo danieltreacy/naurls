@@ -1,7 +1,6 @@
-/**
- Client-side JS for naurl.
-*/
-
+/*
+ * Client-side JS
+ */
 $(function() { 
 
 	$('#source').focus();
