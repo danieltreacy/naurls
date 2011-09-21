@@ -12,14 +12,14 @@ $(function() {
 			type: 'GET',
 			beforeSend: function() { 
 				$('#short').hide();
-				$('#preloader').show();
+				$('.preloader').show();
 			},
 			success: function(json) { 
-				$('#source').val('');
-				$('#preloader').hide();
-				$('span.unique').text(json.key);
-				$('#short').attr("href", "/" + json.key);
-				$('#short').fadeIn();
+				$('.preloader').fadeOut();
+				$('#source').val('naurls.me/' + json.key);
+				// $('span.unique').text(json.key);
+				// $('#short').attr("href", "/" + json.key);
+				// $('#short').fadeIn();
 			}
 		})
 	}

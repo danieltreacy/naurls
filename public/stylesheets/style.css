@@ -24,6 +24,7 @@ h2 {
 }
 #url {
   text-align: center;
+  position: relative;
 }
 #url input {
   background-color: #fff;
@@ -54,10 +55,10 @@ a {
 #short .unique {
   font-weight: 300;
 }
-#preloader {
-  width: 900px;
-  margin-top: 50px;
-  text-align: center;
+.preloader {
+  position: absolute;
+  right: 160px;
+  top: 20px;
   display: none;
 }
 p.colophon {
