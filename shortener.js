@@ -1,18 +1,22 @@
-var crypto = require('crypto');
-var redis;
-var valid_url_pattern = new RegExp(/https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?/);
+/*
+ * Globals
+ */
+var crypto = require('crypto'), redis, valid_url_pattern = new RegExp(/https?:\/\/([-\w\.]+)+(:\d+)?(\/([\w/_\.]*(\?\S+)?)?)?/);
 
+/*
+ * Configure Redis
+ */
 if (process.env.REDISTOGO_URL) {
 	var rtg   = require("url").parse(process.env.REDISTOGO_URL);
-	var redis = require("redis").createClient(rtg.port, rtg.hostname);
+	redis = require("redis").createClient(rtg.port, rtg.hostname);
 	redis.auth(rtg.auth.split(":")[1]);
 } else {
 	redis = require('redis-url').createClient();
 }
 
-// global
-var SALTS = ['Eu9yoh2le1porieha', ];
-
+/*
+ * Shorten a given url
+ */
 function shorten(url) {
 	console.log("Shortening " + url);
 	var result = new Object();
@@ -31,6 +35,9 @@ function shorten(url) {
 	return result;
 }
 
+/*
+ * Resolve url based on hash
+ */
 function resolve(identifier, response) {
 	console.log("Resolving " + identifier);
 	redis.hget(identifier, "url", function(err, data) {
@@ -40,11 +47,16 @@ function resolve(identifier, response) {
 		} else {
 			console.log("Redirecting to " + forwardTo);
 			redis.hincrby(identifier, "hits", 1);
+			redis.hset(identifier, "accessed", new Date());
 			response.redirect(forwardTo);
 		}
 	});
 }
 
+/*
+ * Create unique identifier using SHA1 hash plus random salt
+ * so same urls will still produce unique hash
+ */
 function createIdentifier(url) {
 	var hash = crypto.createHash('sha1');
 	hash.update(url + randomSalt());
@@ -53,20 +65,31 @@ function createIdentifier(url) {
 	return digest;
 }
 
+/*
+ * Create JSON object
+ */
 function createObject(identifier, url) {
 	var shortened = new Object();
 	shortened.identifier = identifier;
 	shortened.created = new Date();
+	shortened.accessed = new Date();
 	shortened.url = url;
 	return shortened;
 }
 
+/*
+ * Store object in Redis
+ */
 function store(shortened) {
 	return redis.hset(shortened.identifier, "url", shortened.url)	
 		&& redis.hset(shortened.identifier, "created", shortened.created)
-		&& redis.hset(shortened.identifier, "hits", 0);
+		&& redis.hset(shortened.identifier, "hits", 0)
+		&& redis.hset(shortened.identifier, "accessed", shortened.accessed);
 }
 
+/*
+ * Generate random salt
+ */
 function randomSalt() {
 	var iteration = 0;
 	var salt = "";
